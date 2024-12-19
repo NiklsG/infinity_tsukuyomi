@@ -11,7 +11,6 @@ public class CustomMoonRenderer {
     private static final Identifier RED_MOON_TEXTURE = new Identifier("infinity_tsukuyomi", "textures/environment/red_moon.png");
 
     public static void render(MatrixStack matrices) {
-        System.out.println("Rendering custom moon...");
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, RED_MOON_TEXTURE);
 
@@ -29,8 +28,5 @@ public class CustomMoonRenderer {
         buffer.vertex(positionMatrix, size, depth, -size).texture(1.0F, 1.0F).next();
         buffer.vertex(positionMatrix, -size, depth, -size).texture(0.0F, 1.0F).next();
         tessellator.draw();
-
-        System.out.println("Custom moon rendered successfully.");
     }
 }
-// Спасибо CorgiTaco за код, который вдохновил так сделать // thx CorgiTaco for code <3

@@ -26,4 +26,3 @@ public class WorldRendererMixin {
         }
     }
 }
-// Спасибо CorgiTaco за код, который вдохновил так сделать // thx CorgiTaco for code <3

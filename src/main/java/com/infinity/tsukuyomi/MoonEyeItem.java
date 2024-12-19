@@ -1,7 +1,6 @@
 package com.infinity.tsukuyomi;
 
 import net.minecraft.entity.player.PlayerEntity;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -19,16 +18,20 @@ public class MoonEyeItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
-            // Установить ночь
-            serverWorld.setTimeOfDay(13000);
+            if (InfinityTsukuyomi.isTsukuyomiActive) {
+                // Отключаем Infinity Tsukuyomi
+                InfinityTsukuyomi.isTsukuyomiActive = false;
 
-            // Выключить дождь
-            serverWorld.setWeather(0, 0, false, false);
+                player.sendMessage(Text.literal("Infinite Tsukuyomi деактивирован!"), true);
+            } else {
+                // Активируем Infinity Tsukuyomi
+                InfinityTsukuyomi.isTsukuyomiActive = true;
 
-            // Активировать эффект на клиенте
-            InfinityTsukuyomi.isTsukuyomiActive = true;
+                // Установить ночь
+                serverWorld.setTimeOfDay(15000);
 
-            player.sendMessage(Text.literal("Infinite Tsukuyomi активирован!"), true);
+                player.sendMessage(Text.literal("Infinite Tsukuyomi активирован!"), true);
+            }
         }
         return TypedActionResult.success(player.getStackInHand(hand));
     }

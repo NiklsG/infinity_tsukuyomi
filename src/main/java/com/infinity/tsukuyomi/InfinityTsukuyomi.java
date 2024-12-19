@@ -1,6 +1,5 @@
 package com.infinity.tsukuyomi;
 
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -9,7 +8,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InfinityTsukuyomi implements ModInitializer, ClientModInitializer {
+public class InfinityTsukuyomi implements ModInitializer {
 
 	public static final String MOD_ID = "infinity_tsukuyomi";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -23,10 +22,5 @@ public class InfinityTsukuyomi implements ModInitializer, ClientModInitializer {
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "moon_eye"), Moon_eye);
 
 		LOGGER.info("Infinity Tsukuyomi Mod initialized!");
-	}
-
-	@Override
-	public void onInitializeClient() {
-		LOGGER.info("Infinity Tsukuyomi Mod client initialized!");
 	}
 }

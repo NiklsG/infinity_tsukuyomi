@@ -2,8 +2,9 @@
 	"required": true,
 	"package": "com.infinity.tsukuyomi.mixin",
 	"mixins": [
-		"WorldRendererMixin",
-		"ClientWorldMixin"
+		"ClientWorldMixin",
+		"ServerWorldMixin",
+		"WorldRendererMixin"
 	],
 	"client": [],
 	"injectors": {
