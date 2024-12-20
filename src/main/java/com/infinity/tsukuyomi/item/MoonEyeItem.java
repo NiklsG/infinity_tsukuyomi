@@ -1,5 +1,6 @@
-package com.infinity.tsukuyomi;
+package com.infinity.tsukuyomi.item;
 
+import com.infinity.tsukuyomi.InfinityTsukuyomi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class MoonEyeItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             if (InfinityTsukuyomi.isTsukuyomiActive) {
-                // Отключаем Infinity Tsukuyomi
+
                 InfinityTsukuyomi.isTsukuyomiActive = false;
 
                 player.sendMessage(
@@ -28,10 +29,10 @@ public class MoonEyeItem extends Item {
                                 .append(Text.literal(" деактивирован!").styled(style -> style.withColor(TextColor.fromRgb(0x00FF00)))), // Зеленый цвет
                         true);
             } else {
-                // Активируем Infinity Tsukuyomi
+
                 InfinityTsukuyomi.isTsukuyomiActive = true;
 
-                // Установить ночь
+
                 serverWorld.setTimeOfDay(15000);
 
                 player.sendMessage(
