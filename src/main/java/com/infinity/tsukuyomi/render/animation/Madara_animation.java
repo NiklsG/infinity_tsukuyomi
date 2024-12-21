@@ -5,7 +5,7 @@ import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
 import net.minecraft.client.render.entity.animation.Transformation;
 
-public class madara_animation {
+public class Madara_animation {
     public static final Animation staying = Animation.Builder.create(0.0F).looping()
             .addBoneAnimation("Head", new Transformation(Transformation.Targets.ROTATE,
                     new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -5.0F, 0.0F), Transformation.Interpolations.LINEAR),
