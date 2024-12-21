@@ -7,7 +7,7 @@
 	"authors": ["Tsukuyomi"],
 	"contact": {
 		"homepage": "https://example.com",
-		"sources": "https://github.com/your-repo"
+		"sources": "https://github.com/NiklsG/infinity_tsukuyomi"
 	},
 	"license": "MIT",
 	"icon": "assets/infinity_tsukuyomi/icon.png",
@@ -23,7 +23,7 @@
 	"depends": {
 		"fabricloader": ">=0.14.0",
 		"minecraft": "1.20.1",
-		"fabric-api": "*",
+		"fabric-api": ">=0.90.0",
 		"mixinextras": ">=0.2.0-beta.6"
 	}
 }
