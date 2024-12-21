@@ -1,0 +1,6 @@
+{
+  "parent": "item/template_spawn_egg",
+  "textures": {
+    "layer0": "infinity_tsukuyomi:item/madara_egg"
+  }
+}
