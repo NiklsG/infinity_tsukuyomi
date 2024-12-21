@@ -1,4 +1,6 @@
 {
-  "item.infinity-tsukuyomi.moon_eye": "Глаз Луны",
+  "itemGroup.infinity_tsukuyomi_tab": "Infinity Tsukuyomi",
+  "item.infinity_tsukuyomi.madara_spawn_egg": "Яйцо призыва Мадары",
+  "item.infinity_tsukuyomi.moon_eye": "Глаз Луны",
   "entity.infinity_tsukuyomi.madara": "Учиха Мадара"
 }
