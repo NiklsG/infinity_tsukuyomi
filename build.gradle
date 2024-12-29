@@ -14,7 +14,14 @@ repositories {
 	mavenCentral()
 	maven { url "https://jitpack.io" }
 	maven { url "https://maven.fabricmc.net/" }
-
+	maven {
+		name = 'GeckoLib'
+		url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+		content {
+			includeGroupByRegex("software\\.bernie.*")
+			includeGroup("com.eliotlash.mclib")
+		}
+	}
 }
 
 dependencies {
@@ -24,6 +31,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:0.92.2+1.20.1"
 	modImplementation "com.github.LlamaLad7:MixinExtras:0.2.0-beta.6"
 	implementation files('libs/MixinExtras-0.2.0-beta.6.jar')
+	modImplementation("software.bernie.geckolib:geckolib-fabric-1.20.1:4.2.1")
+	implementation("com.eliotlash.mclib:mclib:20")
 }
 
 processResources {

@@ -21,9 +21,10 @@
 		"infinity-tsukuyomi.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.0",
+		"fabricloader": ">=0.14.19",
 		"minecraft": "1.20.1",
 		"fabric-api": ">=0.90.0",
-		"mixinextras": ">=0.2.0-beta.6"
+		"mixinextras": ">=0.2.0-beta.6",
+		"geckolib": ">=4.2.1"
 	}
 }

@@ -24,10 +24,10 @@ public class ModCreativeTabs {
         // Регистрация вкладки через Fabric API
         ItemGroup group = FabricItemGroup.builder()
                 .displayName(Text.translatable("itemGroup.infinity_tsukuyomi_tab"))
-                .icon(() -> new ItemStack(InfinityTsukuyomi.Moon_eye))
+                .icon(() -> new ItemStack(InfinityTsukuyomi.MOON_EYE))
                 .entries((enabledFeatures, entries) -> {
                     // Добавляем предметы во вкладку
-                    entries.add(InfinityTsukuyomi.Moon_eye); // Глаз луны
+                    entries.add(InfinityTsukuyomi.MOON_EYE); // Глаз луны
                     entries.add(ModItems.MADARA_SPAWN_EGG); // Яйцо призыва Мадары - Вызвает краш майнкрафта
                 })
                 .build();

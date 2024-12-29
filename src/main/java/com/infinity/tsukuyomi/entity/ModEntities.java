@@ -18,10 +18,13 @@ public class ModEntities {
                     .entityFactory(MadaraEntity::new)
                     .defaultAttributes(MadaraEntity::createMadaraAttributes)
                     .spawnGroup(SpawnGroup.MONSTER)
-                    .dimensions(EntityDimensions.fixed(0.6f, 1.8f)) // Размеры сущности
-                    .trackRangeBlocks(8)
+                    .dimensions(EntityDimensions.fixed(0.6f, 1.8f))
+                    .trackRangeBlocks(30)
+                    .fireImmune()
+
                     .build()
     );
+
 
     public static void registerEntities() {
         FabricDefaultAttributeRegistry.register(MADARA, MadaraEntity.createMadaraAttributes());
