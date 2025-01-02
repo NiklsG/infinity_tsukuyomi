@@ -7,3 +7,4 @@ public class MadaraAnimation {
     public static final RawAnimation staying = RawAnimation.begin().thenLoop("animation.madara.staying");
 }
 
+

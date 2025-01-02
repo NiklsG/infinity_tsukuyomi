@@ -15,9 +15,9 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
 
 public class MadaraEntity extends PathAwareEntity implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -39,32 +39,36 @@ public class MadaraEntity extends PathAwareEntity implements GeoEntity {
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0); // Иммунитет к отталкиванию
     }
 
-    @Override
+    @Override /// Iris/Oculus & GeckoLib Compat конфликт с анимациями
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movementController", 10, state -> {
-            // Проверяем, движется ли сущность
             boolean isMoving = this.getVelocity().lengthSquared() > 0.01;
+            AnimationController<?> controller = state.getController();
 
-            if (isMoving) {
-                // Если движется, включаем анимацию ходьбы
-                state.getController().setAnimation(MadaraAnimation.walking);
-            } else {
-                // Если стоит, включаем анимацию ожидания
-                state.getController().setAnimation(MadaraAnimation.staying);
+            // Проверяем текущую анимацию и обновляем ее при необходимости
+            String currentAnimation = controller.getCurrentAnimation() != null
+                    ? controller.getCurrentAnimation().animation().name()
+                    : null;
+
+            if (isMoving && !"animation.madara.walking".equals(currentAnimation)) {
+                controller.setAnimation(MadaraAnimation.walking);
+            } else if (!isMoving && !"animation.madara.staying".equals(currentAnimation)) {
+                controller.setAnimation(MadaraAnimation.staying);
             }
 
-            // Продолжаем обработку анимаций
             return PlayState.CONTINUE;
         }));
     }
-
     @Override
     public void tick() {
         super.tick();
-        // Вызов базового тика сущности
-        // Больше ничего не делаем в `tick` для обновления анимаций
-    }
 
+        // Отладка текущего состояния
+        if (this.getWorld().isClient()) { // Используем getWorld() вместо world
+            System.out.println("Entity Position: " + this.getPos());
+            // Добавить дополнительную отладку, если потребуется
+        }
+    }
 
 
 
