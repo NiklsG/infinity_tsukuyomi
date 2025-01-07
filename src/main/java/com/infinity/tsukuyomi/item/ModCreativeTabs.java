@@ -28,7 +28,9 @@ public class ModCreativeTabs {
                 .entries((enabledFeatures, entries) -> {
                     // Добавляем предметы во вкладку
                     entries.add(InfinityTsukuyomi.MOON_EYE); // Глаз луны
-                    entries.add(ModItems.MADARA_SPAWN_EGG); // Яйцо призыва Мадары - Вызвает краш майнкрафта
+                    entries.add(ModItems.MADARA_SPAWN_EGG); // Яйцо призыва Мадары
+                    entries.add(ModItems.MADARA_SWORD); // Меч Мадары
+                    entries.add(ModItems.KUNAI); // Кунай
                 })
                 .build();
 
