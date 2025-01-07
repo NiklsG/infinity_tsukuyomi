@@ -1,59 +1,102 @@
 package com.infinity.tsukuyomi.entity;
 
-import com.infinity.tsukuyomi.InfinityTsukuyomi;
-import com.infinity.tsukuyomi.render.animation.Madara_animation;
-import net.minecraft.client.render.entity.animation.Animation;
+import com.infinity.tsukuyomi.animation.MadaraAnimation;
+import com.infinity.tsukuyomi.item.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MadaraEntity extends HostileEntity {
-    Animation currentAnimation; // Храним текущую анимацию.
 
-    public MadaraEntity(EntityType<? extends HostileEntity> entityType, World world) {
+public class MadaraEntity extends PathAwareEntity implements GeoEntity {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    public MadaraEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0D, false)); // Атака в ближнем бою
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true)); // Нацелен на игрока
+
+        // Цели и поведение сущности
+        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0D, false));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     public static DefaultAttributeContainer.Builder createMadaraAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 200.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 10.0);
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 500.0) // Большое здоровье для босса
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3) // Скорость передвижения
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 25.0) // Высокий урон
+                .add(EntityAttributes.GENERIC_ARMOR, 15.0) // Увеличенная броня
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0); // Иммунитет к отталкиванию
+    }
+
+    @Override /// Iris/Oculus & GeckoLib Compat конфликт с анимациями
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movementController", 10, state -> {
+            boolean isMoving = this.getVelocity().lengthSquared() > 0.01;
+            AnimationController<?> controller = state.getController();
+
+            // Проверяем текущую анимацию и обновляем ее при необходимости
+            String currentAnimation = controller.getCurrentAnimation() != null
+                    ? controller.getCurrentAnimation().animation().name()
+                    : null;
+
+            if (isMoving && !"animation.madara.walking".equals(currentAnimation)) {
+                controller.setAnimation(MadaraAnimation.walking);
+            } else if (!isMoving && !"animation.madara.staying".equals(currentAnimation)) {
+                controller.setAnimation(MadaraAnimation.staying);
+            }
+
+            return PlayState.CONTINUE;
+        }));
     }
 
     @Override
-    public void onDeath(DamageSource source) {
-        super.onDeath(source);
+    protected void dropLoot(net.minecraft.entity.damage.DamageSource source, boolean causedByPlayer) {
+        super.dropLoot(source, causedByPlayer);
 
-        if (!this.getWorld().isClient && source.getAttacker() instanceof PlayerEntity player) {
-            this.dropStack(new ItemStack(InfinityTsukuyomi.Moon_eye, 1));
+        if (this.getWorld().random.nextFloat() < 0.05) { // Шанс 5%
+            this.dropItem(ModItems.MADARA_SWORD);
         }
     }
-
+    
     @Override
     public void tick() {
         super.tick();
-
-        PlayerEntity player = this.getWorld().getClosestPlayer(this, 10.0D);
-        if (player != null && this.canSee(player)) {
-            this.setCurrentAnimation(Madara_animation.walking);
-        } else {
-            this.setCurrentAnimation(Madara_animation.staying);
-        }
     }
 
-    public void setCurrentAnimation(Animation animation) {
-        this.currentAnimation = animation;
-        // Дополнительная логика анимации может быть добавлена здесь.
+    @Override
+    protected void playStepSound(BlockPos pos, net.minecraft.block.BlockState state) {
+        this.playSound(net.minecraft.sound.SoundEvents.ENTITY_WITHER_SKELETON_STEP, 1.0F, 1.0F); // Уникальный звук шагов
+    }
+
+    @Override
+    protected net.minecraft.sound.SoundEvent getAmbientSound() {
+        return net.minecraft.sound.SoundEvents.ENTITY_WITHER_AMBIENT; // Звук в состоянии покоя
+    }
+
+    @Override
+    protected net.minecraft.sound.SoundEvent getHurtSound(net.minecraft.entity.damage.DamageSource source) {
+        return net.minecraft.sound.SoundEvents.ENTITY_WITHER_HURT; // Звук при получении урона
+    }
+
+    @Override
+    protected net.minecraft.sound.SoundEvent getDeathSound() {
+        return net.minecraft.sound.SoundEvents.ENTITY_WITHER_DEATH; // Звук при смерти
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
     }
 }
