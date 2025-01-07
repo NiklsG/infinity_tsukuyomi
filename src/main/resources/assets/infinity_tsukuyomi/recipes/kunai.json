@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XIX",
+    "XIX",
+    "WSW"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:air"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "minecraft:oak_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "infinitytsukuyomi:kunai",
+    "count": 1
+  }
+}
