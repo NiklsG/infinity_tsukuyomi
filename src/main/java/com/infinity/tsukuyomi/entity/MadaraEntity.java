@@ -1,6 +1,7 @@
 package com.infinity.tsukuyomi.entity;
 
 import com.infinity.tsukuyomi.animation.MadaraAnimation;
+import com.infinity.tsukuyomi.item.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -59,18 +60,20 @@ public class MadaraEntity extends PathAwareEntity implements GeoEntity {
             return PlayState.CONTINUE;
         }));
     }
+
+    @Override
+    protected void dropLoot(net.minecraft.entity.damage.DamageSource source, boolean causedByPlayer) {
+        super.dropLoot(source, causedByPlayer);
+
+        if (this.getWorld().random.nextFloat() < 0.05) { // Шанс 5%
+            this.dropItem(ModItems.MADARA_SWORD);
+        }
+    }
+    
     @Override
     public void tick() {
         super.tick();
-
-        // Отладка текущего состояния
-        if (this.getWorld().isClient()) { // Используем getWorld() вместо world
-            System.out.println("Entity Position: " + this.getPos());
-            // Добавить дополнительную отладку, если потребуется
-        }
     }
-
-
 
     @Override
     protected void playStepSound(BlockPos pos, net.minecraft.block.BlockState state) {
