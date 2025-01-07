@@ -15,6 +15,9 @@
 	"entrypoints": {
 		"main": [
 			"com.infinity.tsukuyomi.InfinityTsukuyomi"
+		],
+		"client": [
+			"com.infinity.tsukuyomi.InfinityTsukuyomiClient"
 		]
 	},
 	"mixins": [
