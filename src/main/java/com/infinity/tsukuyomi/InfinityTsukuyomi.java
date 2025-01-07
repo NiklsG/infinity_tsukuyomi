@@ -37,8 +37,7 @@ public class InfinityTsukuyomi implements ModInitializer {
 
 		// Регистрация предметов
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "moon_eye"), MOON_EYE);
-		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "madara_spawn_egg"), ModItems.MADARA_SPAWN_EGG);
-
+		ModItems.registerItems();
 		// Регистрация креативной вкладки
 		ModCreativeTabs.registerCreativeTab();
 
