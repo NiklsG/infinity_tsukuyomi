@@ -21,10 +21,8 @@ public class ModEntities {
                     .dimensions(EntityDimensions.fixed(0.6f, 1.8f))
                     .trackRangeBlocks(30)
                     .fireImmune()
-
                     .build()
     );
-
 
     public static void registerEntities() {
         FabricDefaultAttributeRegistry.register(MADARA, MadaraEntity.createMadaraAttributes());
